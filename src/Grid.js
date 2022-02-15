@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 import "./Grid.css"
 
 function Grid(props) {
+  
 
     const renderBoard = (row) => {
         return(
