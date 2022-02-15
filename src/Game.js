@@ -7,17 +7,8 @@ function Game() {
     const [mine_count, set_mine_count] = useState(20); 
     const [mine_coord, set_mine_coord] = useState([]); 
     
-
-    
-    const populateTable = () =>{
-        set_tile_data([]); 
-        buildTable(); 
-    }
-
-    
     const buildTable = () =>{
         let tempData = [];        
-        
         for (let i = 0; i<board_size; i++){
             let tempRow = []; 
             for (let k = 0; k<board_size; k++){
@@ -25,17 +16,17 @@ function Game() {
             }
             tempData.push(tempRow); 
         }
-        //set_tile_data(tempData); 
-
         generateMineLocations(); 
-        
-        set_tile_data(placeMines(tempData));
-
+        tempData=placeMines(tempData); 
+        tempData=updataProxVals(tempData); 
+ 
+        set_tile_data(tempData);
+      
+     
     }
 
 
-    const generateMineLocations = () =>{
-       
+    const generateMineLocations = () =>{ //Creates x,y coordinates for random mine placement
         let temp_coords = []; 
         for (let i = 0; i<mine_count; i++){
       
@@ -47,23 +38,48 @@ function Game() {
             }
             temp_coords.push([tempX, tempY]); 
         }
-        
        set_mine_coord(temp_coords); 
     }
 
     const placeMines = (table) =>{
-       // console.log(tile_data); 
         let tempBoard = table; 
         mine_coord.map(function(item){
             tempBoard[item[0]][item[1]]="M";
         } )
         return(tempBoard); 
-       // set_tile_data(tempBoard); 
     }
+
+    const updataProxVals = (table) =>{
+        let tempBoard = table; 
+        mine_coord.map(function(mines){
+            let tempX=0; 
+            let tempY=0; 
+            for (let i=-1; i<1; i++){
+                tempX=mines[0]+i; 
+                if(tempX>=0){
+                    for (let k=-1; k<1; k++){
+                        tempY=mines[1]+k; 
+                        console.log("made it"); 
+                        if(tempY>=0){
+                            if(tempBoard[tempX][tempY] !="M"){
+                                tempBoard[tempX][tempY] = tempBoard[tempX][tempY]+1;
+                            }
+                        }
+                        //if(tempY>=0 && (tempBoard[tempX][tempY] !="M")){
+                            //tempBoard[tempX][tempY] = tempBoard[tempX][tempY]+1; 
+                            //console.log(tempX,tempY); 
+                        //}
+                    }
+                }
+            }
+        })
+        return(tempBoard); 
+    }
+
 
   return (
     <div> 
-        <button onClick={()=>populateTable()}> Generate</button>
+        <button onClick={()=>buildTable()}> Generate</button>
         <Grid data={tile_data}/>
     </div> 
   )

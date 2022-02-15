@@ -2,16 +2,12 @@ import React, {useState} from 'react'
 import "./Grid.css"
 
 function Grid(props) {
-  
-
     const renderBoard = (row) => {
         return(
             <div> 
                 {row.map(renderRows)}
             </div>
-
         ); 
-
     }
 
     const renderRows = (tile) => {
@@ -22,12 +18,9 @@ function Grid(props) {
 
     }
 
-
-
     return (
         <div>
             {props.data.map(renderBoard)}
-
         </div>
     )
 }
