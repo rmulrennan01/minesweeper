@@ -12,7 +12,7 @@ function Grid(props) {
 
     const renderRows = (tile) => {
         return(
-        <button className='grid__button'> {tile} </button>
+        <button className='grid__button'> {tile.val} </button>
         ); 
 
 

@@ -9,33 +9,34 @@ function Game() {
 
 
     /*
-    tile_data:
-        x: 0 <= int < board_size
-        y: 0 <= int < board_size
-        val: string to display proximity count, mine, or empty
-        flag: bool
-        hide: bool
+    tile_data: [[{val:string,flag:bool,hide:bool}]]
+        val->string (to display proximity count, mine, or empty)
+        flag->bool (identifies if a flag is placed there)
+        hide->bool (identifies if the tile shall be shown)
 
     */
     
+ 
+
     const buildTable = () =>{
-        let tempData = [];        
+        let tempData = [];
+             
         for (let i = 0; i<board_size; i++){
             let tempRow = []; 
             for (let k = 0; k<board_size; k++){
-                    tempRow.push([0]); 
+                    tempRow.push({val:0,flag:false, hide:false}); 
             }
             tempData.push(tempRow); 
         }
         generateMineLocations(); 
         tempData=placeMines(tempData); 
         tempData=updataProxVals(tempData); 
- 
         set_tile_data(tempData);
-      
     }
 
 
+
+    
     const generateMineLocations = () =>{ //Creates x,y coordinates for random mine placement
         let temp_coords = []; 
         for (let i = 0; i<mine_count; i++){
@@ -48,18 +49,23 @@ function Game() {
             }
             temp_coords.push([tempX, tempY]); 
         }
-        console.log(temp_coords); 
+        //console.log(temp_coords); 
        set_mine_coord(temp_coords); 
     }
+    
+
+
 
     const placeMines = (table) =>{
         let tempBoard = table; 
         mine_coord.map(function(item){
-            tempBoard[item[0]][item[1]]="M";
+            tempBoard[item[0]][item[1]].val="M";
         } )
         return(tempBoard); 
     }
 
+
+   
     const compareCoords = (x,y,arry) =>{
         let result = false; 
         arry.map(function(coord){
@@ -71,6 +77,8 @@ function Game() {
         })
         return result; 
     }
+    
+
 
     const updataProxVals = (table) =>{
         let tempBoard = table; 
@@ -83,8 +91,8 @@ function Game() {
                     for (let k=-1; k<2; k++){
                         tempY=mines[1]+k; 
                         if(tempY>=0 && tempY<board_size){ //Y not off the game board
-                            if(tempBoard[tempX][tempY] != 'M'){
-                                tempBoard[tempX][tempY] = Number(tempBoard[tempX][tempY])+Number(1);
+                            if(tempBoard[tempX][tempY].val != 'M'){
+                                tempBoard[tempX][tempY].val = Number(tempBoard[tempX][tempY].val+1);
                             }
                         }
                         //if(tempY>=0 && (tempBoard[tempX][tempY] !="M")){
@@ -97,7 +105,6 @@ function Game() {
         })
         return(tempBoard); 
     }
-
 
   return (
     <div> 
