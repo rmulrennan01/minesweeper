@@ -2,20 +2,30 @@ import React, {useState} from 'react'
 import "./Grid.css"
 
 function Grid(props) {
-    const renderBoard = (row) => {
+   
+  
+
+
+    const renderBoard = (row,index) => {
         return(
-            <div> 
+            <div key={index}> 
                 {row.map(renderRows)}
+                
             </div>
         ); 
     }
 
     const renderRows = (tile) => {
+        let displayVal = tile.val; 
+
+        if(tile.hide){
+            displayVal= "."; 
+        }
+  
         return(
-        <button className='grid__button'> {tile.val} </button>
-        ); 
-
-
+            <button key={tile.key} onClick={()=>props.show(tile.x,tile.y)} className='grid__button'> {displayVal} </button>        
+            ); 
+        
     }
 
     return (

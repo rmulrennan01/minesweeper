@@ -1,11 +1,25 @@
 .grid__button{
     background-color: #E9E9EB; 
-    border: none; 
-    
+    border: solid; 
+    border-color:black; 
+    border-width: 1px; 
     text-align: center; 
     font-size: 16px; 
-    width: 20px; 
-    height: 20px; 
+    width: 25px; 
+    height: 25px; 
+}
+
+
+.grid__button__hidden{
+    background-color: #E9E9EB; 
+    color:  #E9E9EB; 
+    border: solid; 
+    border-color:black; 
+    border-width: 1px; 
+    text-align: center; 
+    font-size: 16px; 
+    width: 25px; 
+    height: 25px; 
 }
 
 .grid__button:hover{

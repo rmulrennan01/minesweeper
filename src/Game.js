@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import Grid from './Grid.js'
+import { findAllInRenderedTree } from 'react-dom/test-utils';
 
 function Game() {
     const [tile_data, set_tile_data] = useState([]); 
@@ -9,14 +10,15 @@ function Game() {
 
 
     /*
-    tile_data: [[{val:string,flag:bool,hide:bool}]]
+    tile_data: [[{x:int,y:int,val:string,flag:bool,hide:bool}]]
         val->string (to display proximity count, mine, or empty)
         flag->bool (identifies if a flag is placed there)
         hide->bool (identifies if the tile shall be shown)
 
     */
     
- 
+  
+
 
     const buildTable = () =>{
         let tempData = [];
@@ -24,7 +26,7 @@ function Game() {
         for (let i = 0; i<board_size; i++){
             let tempRow = []; 
             for (let k = 0; k<board_size; k++){
-                    tempRow.push({val:0,flag:false, hide:false}); 
+                    tempRow.push({key:String(i+","+k),x:i,y:k,val:0,flag:false, hide:true}); 
             }
             tempData.push(tempRow); 
         }
@@ -72,10 +74,10 @@ function Game() {
             if(coord[0]==x && coord[1]==y){
                 result=true; 
             }
-            console.log("ran"); 
 
         })
-        return result; 
+       // return result; 
+       return false; 
     }
     
 
@@ -106,10 +108,26 @@ function Game() {
         return(tempBoard); 
     }
 
+    const reveal = (x,y) =>{
+        let tempBoard = tile_data; 
+        //alert(tempBoard[x][y].hide); 
+        tempBoard[x][y].hide=false; 
+        set_tile_data(tempBoard); 
+        //alert(tile_data[x][y].val); 
+        console.log("revealing " + x + "&" +y); 
+        console.log(tile_data[x][y].hide); 
+        console.log(tile_data[x][y].val); 
+        //alert(tempBoard[x][y].hide); 
+
+    }
+
   return (
     <div> 
+        <br></br>
         <button onClick={()=>buildTable()}> Generate</button>
-        <Grid data={tile_data}/>
+        <br></br>
+        <br></br>
+        <Grid data={tile_data} show={reveal}/>
     </div> 
   )
 }
