@@ -54,15 +54,15 @@ function Game() {
         mine_coord.map(function(mines){
             let tempX=0; 
             let tempY=0; 
-            for (let i=-1; i<1; i++){
+            for (let i=-1; i<2; i++){
                 tempX=mines[0]+i; 
-                if(tempX>=0){
-                    for (let k=-1; k<1; k++){
+                if(tempX>=0 && tempX<board_size){ //X not off the game board
+                    for (let k=-1; k<2; k++){
                         tempY=mines[1]+k; 
                         console.log("made it"); 
-                        if(tempY>=0){
+                        if(tempY>=0 && tempY<board_size){ //Y not off the game board
                             if(tempBoard[tempX][tempY] !="M"){
-                                tempBoard[tempX][tempY] = tempBoard[tempX][tempY]+1;
+                                tempBoard[tempX][tempY] = Number(tempBoard[tempX][tempY]+1);
                             }
                         }
                         //if(tempY>=0 && (tempBoard[tempX][tempY] !="M")){
